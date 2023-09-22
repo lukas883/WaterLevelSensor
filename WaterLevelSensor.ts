@@ -5,38 +5,20 @@ namespace WaterLevelSensor {
     //% block
     export function getPercentage() {
         let count = 0
-        let sections = (4194304>>0)
+        let THREASHOLD = 245
         for (let index = 0; index < 8; index++) {
-            if (pins.i2cReadNumber(119, NumberFormat.UInt8LE, false) > 240) {
+            if (pins.i2cReadNumber(119, NumberFormat.UInt8LE, false) > THREASHOLD) {
                 count++
             }
         }
         for (let index = 0; index < 12; index++) {
-            if (pins.i2cReadNumber(120, NumberFormat.UInt8LE, false) > 240) {
+            if (pins.i2cReadNumber(120, NumberFormat.UInt8LE, false) > THREASHOLD) {
                 count++
             }
-        }
+        }       
         
-        let num=sections
-        let bin=""
-        while(num>0){
-            if (num%2==0){
-                bin=bin+"0"
-                num=num/2
-            }
-            else{
-                bin=bin+"1"
-                num=(num-1)/2
-            }
-        }
-        
-        
-        serial.writeNumber(count)
-        serial.writeLine("  ")
-        //while(sections&1){
-            //count++
-            //sections=sections>>1
-        //}
+        //serial.writeNumber(count)
+        //serial.writeLine("  ")
         return count * 5
     }
     /**
